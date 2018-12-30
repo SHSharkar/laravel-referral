@@ -18,7 +18,7 @@ trait UserReferral
 {
     public function getReferralLink()
     {
-        return url('/register').'/?ref='.$this->affiliate_id;
+        return url('/register') . '/?ref=' . $this->affiliate_id;
     }
 
     public static function scopeReferralExists(Builder $query, $referral)
@@ -30,8 +30,8 @@ trait UserReferral
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            if ($referredBy = Cookie::get('referral')) {
+        static::creating(function($model) {
+            if($referredBy = Cookie::get('referral')) {
                 $model->referred_by = $referredBy;
             }
 
@@ -42,10 +42,11 @@ trait UserReferral
     protected static function generateReferral()
     {
         $length = config('referral.referral_length', 5);
+        $referral = strtoupper(str_random($length));
 
-        do {
+        while(static::referralExists($referral)) {
             $referral = strtoupper(str_random($length));
-        } while (static::referralExists($referral));
+        };
 
         return $referral;
     }
