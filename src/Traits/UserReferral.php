@@ -44,12 +44,6 @@ trait UserReferral
         $length = config('referral.referral_length', 5);
         $referral = strtoupper(str_random($length));
 
-        if(static::referralExists($referral)) {
-            $referral = strtoupper(str_random($length));
-        } else {
-            $referral = strtoupper(str_random($length));
-        }
-
         return $referral;
     }
 }
